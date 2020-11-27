@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test</title>
+    <title>Hi</title>
 </head>
 
 <body>
@@ -12,14 +12,14 @@
     Hello world
 
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js'></script>
     <script>
-        function onLoad() {
-            const socket = io();
+        window.onload = function onLoad() {
+            const socket = io({path: '/ws'});
 
             socket.on('connect', () => {
                 console.log('SocketConnected!');
-                socket.emit('message', {type: 'mykey', message: {hello: 'world'}});
+                onConnect();
             });
             socket.on('disconnect', () => {
                 console.log('Socket Disonnected!');
@@ -30,15 +30,17 @@
             socket.on('error', (error) => {
                 console.log('Socket Error - ', error);
             });
-
             socket.on('message', (data) => {
-                console.log('data - ', data);
-            })
+                console.log('message received from server - ', data);
+            });
+
+            async function onConnect() {
+                // await fetch('/broadcast').catch(error => console.log(error));
+                socket.emit('message', {type: 'MYKEY', message: {hello: 'world MYKEY'}});
+            }
 
         }
-
-        window.onload = onLoad;
-    </script> 
+    </script>
 
 </body>
 
