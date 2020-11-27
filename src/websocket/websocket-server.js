@@ -11,15 +11,6 @@ function createMessage(key, data = {}) {
   }
 }
 
-function stripOffIpv4(url) {
-  const PREFIX = '::ffff:';
-  if (url && url.indexOf(PREFIX) > -1) {
-    return url.split(PREFIX)[1];
-  } else {
-    return url;
-  }
-}
-
 class WebSocket {
   socket = null
   allClients = [];
@@ -45,7 +36,7 @@ class WebSocket {
 
   onConnection(client) {
     client.uuid = uuidv4();
-    client.hosturl = stripOffIpv4(client.handshake.headers.referer)
+    client.hosturl = client.handshake.headers.referer
     console.log('New User/SocketClient is connected from host - ' + client.hosturl);
 
     this.addClient(client);
