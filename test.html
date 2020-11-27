@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test</title>
+</head>
+
+<body>
+
+    Hello world
+
+
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.js'></script>
+    <script>
+        function onLoad() {
+            const socket = io();
+
+            socket.on('connect', () => {
+                console.log('SocketConnected!');
+                socket.emit('message', {type: 'mykey', message: {hello: 'world'}});
+            });
+            socket.on('disconnect', () => {
+                console.log('Socket Disonnected!');
+            });
+            socket.on('reconnect', () => {
+                console.log('Socket Reconnected!');
+            });
+            socket.on('error', (error) => {
+                console.log('Socket Error - ', error);
+            });
+
+            socket.on('message', (data) => {
+                console.log('data - ', data);
+            })
+
+        }
+
+        window.onload = onLoad;
+    </script> 
+
+</body>
+
+</html>
