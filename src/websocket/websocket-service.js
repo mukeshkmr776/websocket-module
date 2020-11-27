@@ -1,21 +1,20 @@
-const WebSocketServer = require('./server');
+const WebSocketServer = require('./websocket-server');
 // const WebSocketInstance = require('./instance');
 
 var websocketInstance = null;
 
 module.exports = {
-    startServer: (httpServer) => {
+    start: (httpServer) => {
         if (!websocketInstance) {
             websocketInstance = new WebSocketServer(httpServer);
         }
     },
 
-    stopServer: () => {
+    stop: () => {
         if (websocketInstance) {
             websocketInstance.stopServer();
         }
     },
-
 
     onEvent: (key, callback) => {
         websocketInstance.onEvent(key, callback);

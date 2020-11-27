@@ -9,13 +9,19 @@
 
 <body>
 
-    Hello world
+    Hello world.
+    <br>
+    See Console in Chrome Debugging Tool, and then load page.
 
 
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js'></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js'></script> -->
+    <script src="/socket.io/socket.io.js"></script>
     <script>
         window.onload = function onLoad() {
-            const socket = io({path: '/ws'});
+            const socket = io({
+                path: '/ws'
+            });
 
             socket.on('connect', () => {
                 console.log('SocketConnected!');
@@ -36,7 +42,11 @@
 
             async function onConnect() {
                 // await fetch('/broadcast').catch(error => console.log(error));
-                socket.emit('message', {type: 'MYKEY', message: {hello: 'world MYKEY'}});
+                const data = {
+                    type: 'MYKEY',
+                    message: 'Hello World'
+                }
+                socket.emit('message', data);
             }
 
         }

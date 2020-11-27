@@ -11,7 +11,16 @@ function createMessage(key, data = {}) {
   }
 }
 
-class MySocket {
+function stripOffIpv4(url) {
+  const PREFIX = '::ffff:';
+  if (url && url.indexOf(PREFIX) > -1) {
+    return url.split(PREFIX)[1];
+  } else {
+    return url;
+  }
+}
+
+class WebSocket {
   socket = null
   allClients = [];
 
@@ -21,7 +30,13 @@ class MySocket {
   }
 
   constructor(httpServer) {
-    this.socket = socketio(httpServer, this.socketOptions);
+    //-------------------------------------------------------
+    // this.socket = socketio(httpServer, this.socketOptions);
+    //-------------------------------------------------------
+    this.socket = socketio();
+    this.socket.attach(httpServer, this.socketOptions);
+    //-------------------------------------------------------
+
     this.socket.on('connection', (client) => {
       this.onConnection(client);
     });
@@ -30,6 +45,9 @@ class MySocket {
 
   onConnection(client) {
     client.uuid = uuidv4();
+    client.hosturl = stripOffIpv4(client.handshake.headers.referer)
+    console.log('New User/SocketClient is connected from host - ' + client.hosturl);
+
     this.addClient(client);
 
     client.on('disconnect', (reason) => {
@@ -41,6 +59,8 @@ class MySocket {
       const callbackForBroadcastToAll = async (key, data2) => this.broadcastToAll(key, data2);
 
       const messageEvent = new MessageEvent(data, callbackForSendToClient, callbackForBroadcastToAll);
+      // console.log(client.uuid + ' - Message Received - ' + JSON.stringify(data));
+
       this.sendToCallbacks(messageEvent);
     });
   }
@@ -157,4 +177,4 @@ class MessageEvent {
 
 }
 
-module.exports = MySocket;
+module.exports = WebSocket;
