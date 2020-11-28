@@ -2,7 +2,7 @@ const router = require('express').Router();
 const AdminService = require('./service');
 
 router.get('/admin', (req, res) => {
-    res.status(200).send('Admin Page!');
+    res.render('admin');
 })
 
 

@@ -5,9 +5,11 @@
   "main": "index.js",
   "dependencies": {
     "compression": "^1.7.4",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "nodemon": "^2.0.6",
+    "pug": "^3.0.0",
     "socket.io": "^3.0.3",
     "uuid": "^8.3.1"
   },
@@ -17,8 +19,11 @@
     "test": "echo \"Error: no test specified\" && exit 0"
   },
   "nodemonConfig": {
-    "ignore": ["public/*"],
-    "delay": "1000"
+    "ignore": [
+      "public/*"
+    ],
+    "delay": "1000",
+    "ext": "js,mjs,json,pug"
   },
   "keywords": [],
   "author": "",

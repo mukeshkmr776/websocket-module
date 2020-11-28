@@ -6,6 +6,7 @@ const path = require('path');
 // External Imports
 const express = require('express');
 const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const compression = require('compression');
 
 
@@ -25,15 +26,20 @@ const httpServer = http.createServer(app);
 // ------------------------------------------------------------
 
 
+// view engine setup
+app.set('views', path.join(__dirname,'views'));
+app.set('view engine', 'pug');
+// ------------------------------------------------------------
+ 
+
 // Middlewares and PORT Set
-app.set('port', UtilityService.getPort());
-app.use(cors()); // Always put CORS as first line in middleware. This is very important.
-app.use(compression());
-app.use(express.json());
-app.use(express.urlencoded({
-    extended: false
-}));
-app.use('/', express.static(path.join(__dirname, '..', 'public')));
+app.set('port', UtilityService.getPort())
+app.use(cors()) // Always put CORS as first line in middleware. This is very important.
+app.use(compression())
+app.use(cookieParser())
+app.use(express.json())
+app.use(express.urlencoded({ extended: false }))
+app.use('/', express.static(path.join(__dirname, '..', 'public')))
 // ------------------------------------------------------------
 
 
