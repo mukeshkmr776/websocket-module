@@ -15,7 +15,6 @@
 
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <!-- <script src='https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.3/socket.io.min.js'></script> -->
     <script src="/socket.io/socket.io.js"></script>
     <script>
         window.onload = function onLoad() {
@@ -25,7 +24,7 @@
 
             socket.on('connect', () => {
                 console.log('SocketConnected!');
-                onConnect();
+                onSocketConnect();
             });
             socket.on('disconnect', () => {
                 console.log('Socket Disonnected!');
@@ -40,16 +39,18 @@
                 console.log('message received from server - ', data);
             });
 
-            async function onConnect() {
-                // await fetch('/broadcast').catch(error => console.log(error));
+            async function onSocketConnect() {
                 const data = {
                     type: 'MYKEY',
                     message: 'Hello World'
                 }
                 socket.emit('message', data);
             }
-
         }
+    </script>
+
+    <script>
+
     </script>
 
 </body>

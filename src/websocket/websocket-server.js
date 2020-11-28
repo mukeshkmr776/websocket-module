@@ -74,7 +74,7 @@ class WebSocket {
     console.log('Client error - ', error);
   }
 
-  onEvent(key, callback) {
+  static onEvent(key, callback) {
     if ((typeof key === 'string') && (key.length > 0)) {
       if (Array.isArray(EVENT_CALLBACKS[key])) {
         EVENT_CALLBACKS[key].push(callback);
