@@ -36,8 +36,7 @@ class WebSocket {
 
   onConnection(client) {
     client.uuid = uuidv4();
-    client.hosturl = client.handshake.headers.referer
-    console.log('New User/SocketClient is connected from host - ' + client.hosturl);
+    console.log('New User/SocketClient is connected.');
 
     this.addClient(client);
 
@@ -46,11 +45,12 @@ class WebSocket {
     })
 
     client.on('message', (data) => {
+      console.log('Message Received from UI - ' + JSON.stringify(data));
+
       const callbackForSendToClient   = async (data2) => client.emit('message', data2);
       const callbackForBroadcastToAll = async (key, data2) => this.broadcastToAll(key, data2);
 
       const messageEvent = new MessageEvent(data, callbackForSendToClient, callbackForBroadcastToAll);
-      // console.log(client.uuid + ' - Message Received - ' + JSON.stringify(data));
 
       this.sendToCallbacks(messageEvent);
     });
@@ -75,19 +75,12 @@ class WebSocket {
   }
 
   static onEvent(key, callback) {
-    if ((typeof key === 'string') && (key.length > 0)) {
+    if ((typeof key === 'string') && (key.length > 0) && (typeof callback === 'function')) {
       if (Array.isArray(EVENT_CALLBACKS[key])) {
         EVENT_CALLBACKS[key].push(callback);
       } else {
         EVENT_CALLBACKS[key] = [callback];
       }
-    }
-  }
-
-  sendToClientById(clientId, key, data) {
-    const client = this.getClientById(clientId);
-    if(client) {
-      client.emit('message', createMessage(key, data));
     }
   }
 
@@ -106,24 +99,6 @@ class WebSocket {
         break;
       }
     }
-  }
-
-  createMessage(key, data) {
-    return {
-      type: key,
-      message: data
-    }
-  }
-
-  getClientById(clientId) {
-    let client = null;
-    for (let i = 0; i < this.allClients.length; i++) {
-      if (clientId === this.allClients[i].uuid) {
-        client = this.allClients[i];
-        break;
-      }
-    }
-    return client;
   }
 
   stopServer() {

@@ -16,6 +16,10 @@
     "debug": "node --inspect ./index.js",
     "test": "echo \"Error: no test specified\" && exit 0"
   },
+  "nodemonConfig": {
+    "ignore": ["public/*"],
+    "delay": "1000"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC"

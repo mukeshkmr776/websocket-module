@@ -40,22 +40,13 @@ app.use('/', express.static(path.join(__dirname, '..', 'public')));
 
 // Routes Registering
 app.get('/favicon.ico', (req, res) => res.status(204).send());
-app.use('/api/admin', require('./apis/admin'));
-app.use('/api/user',  require('./apis/user'));
+app.use('/', require('./apis/admin'));
+app.use('/', require('./apis/user'));
 // ------------------------------------------------------------
 
 
-// Starting server
-// httpServer.listen(PORT, () => {
-//     console.log('HTTP Server listening on http://localhost:' + PORT + '/');
 
-//     // WebSocket Initialize - socket should be started only after HTTP Server is started.
-//     const WebSocketService = require('./websocket/websocket-service');
-//     WebSocketService.start(httpServer);
-// });
-// ------------------------------------------------------------
-
-
+// OnError handler for httpServer
 function onError(error) {
     if (error.syscall !== 'listen') {
         throw error;
@@ -73,6 +64,7 @@ function onError(error) {
             throw error;
     }
 }
+
 
 module.exports = {
     startServer: () => {
