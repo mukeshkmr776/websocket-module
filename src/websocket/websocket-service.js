@@ -17,7 +17,15 @@ module.exports = {
     },
 
     onEvent: (key, callback) => {
-        websocketInstance.onEvent(key, callback);
+        // -------------------------------------------------
+        // WebSocketServer.onEvent(key, callback);
+        // -------------------- or -------------------------
+        if (websocketInstance) {
+            websocketInstance.onEvent(key, callback);
+        } else {
+            throw new Error('Cannot register Websocket events before it is started');
+        }
+        // -------------------------------------------------
     },
 
     broadcastToAll: (key, data = {}) => {

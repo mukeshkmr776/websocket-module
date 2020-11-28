@@ -4,9 +4,12 @@ const path = require('path');
 
 
 // External Imports
+const express = require('express');
 const cors = require('cors');
 const compression = require('compression');
-const express = require('express');
+
+
+// ExpressJs Server App
 const app = express();
 
 
@@ -41,7 +44,7 @@ app.get('/', (req, res) => {
 httpServer.listen(PORT, () => {
     console.log('HTTP Server listening on http://localhost:' + PORT + '/');
 
-    // WebSocket Initialize - socket should be started onyl after HTTP Server is started.
+    // WebSocket Initialize - socket should be started only after HTTP Server is started.
     const WebSocketService = require('./websocket/websocket-service');
     WebSocketService.start(httpServer);
 });
